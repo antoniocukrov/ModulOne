@@ -15,14 +15,33 @@ namespace ModulOne
             int x = Int32.Parse(Console.ReadLine());
             Console.Write("Visina polja:");
             int y = Int32.Parse(Console.ReadLine());
+            Console.WriteLine("\nUnesite kut od kuda će ciklička tablica krenuti!\n" +
+                "(1)Gore lijevo!\n" +
+                "(2)Gore desno!\n" +
+                "(3)Dolje desno!\n" +
+                "(4)Dolje lijevo!");
+            Console.Write("Izbor:");
+            int izbor = Int32.Parse(Console.ReadLine());
+
             int counter = 0;
             int ix = 0, iy = 0;
             int[,] poljeGeek = new int[x, y];
 
-            DoljeLijevo(x, y, poljeGeek, counter, ix, iy);
-
+            switch (izbor)
+            {
+                case 1: GoreLijevo(x, y, poljeGeek, counter, ix, iy);
+                    break;
+                case 2: GoreDesno(x, y, poljeGeek, counter, ix, iy);
+                    break;
+                case 3: DoljeDesno(x, y, poljeGeek, counter, ix, iy);
+                    break;
+                case 4: DoljeLijevo(x, y, poljeGeek, counter, ix, iy);
+                    break;
+                default: Console.WriteLine("Nije dobar izbor");
+                    break;
+            }
+            
             IspisiTablu(x, y, poljeGeek);
-
             Console.ReadLine();
         }
         static void IspisiTablu(int x, int y, int[,] poljeGeek)
