@@ -1,10 +1,4 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace ModulOne
 {
@@ -12,102 +6,116 @@ namespace ModulOne
     {
         static void Main(string[] args)
         {
-            // operacije/metode nad varijablom:
-            string rijec = "Hrvatska";
-            Console.WriteLine(rijec.ToLower());
+            /*
+             Korisnik unosi dva broja koja određuju dimenzije dvodimenzionalnog polja u kojem se ispisuju brojevi
+             ciklički prema sredini počevši od određenog kuta.
+            */
 
-            // escape characters: \n \\ \" \'
-            Console.WriteLine("Ovo je neki,\ntekst u \"navodnicima\" !?");
+            Console.WriteLine("Geeks Incorporated ® ™©\n\nMolimo unesite dva broja koja određuju visinu i širinu polja.");
+            Console.Write("Širina polja:");
+            int x = Int32.Parse(Console.ReadLine());
+            Console.Write("Visina polja:");
+            int y = Int32.Parse(Console.ReadLine());
+            int counter = 0;
+            int ix = 0, iy = 0;
+            int[,] poljeGeek = new int[x, y];
+
+            GoreLijevo(x, y, poljeGeek, counter, ix, iy);
 
 
-            int broj = 1024;
-            Console.WriteLine(broj);
-            Console.WriteLine(broj.ToString());
+            IspisiTablu(x, y, poljeGeek);
 
-            Convert.ToString(broj);
-            Int32.Parse(broj.ToString());
-            Console.WriteLine(broj);
+            Console.ReadLine();
 
-            // string je niz znakova:
-
-            string jelo = "Lasagna";
-            Console.WriteLine(jelo.First());
-            Console.WriteLine(jelo.Last());
-            Console.WriteLine(jelo.Substring(1));
-            Console.WriteLine(jelo.Substring(2, 3));
-            Console.WriteLine(jelo.IndexOf('n'));
-            Console.WriteLine(jelo.IndexOf("gn"));
-            Console.WriteLine(jelo.IndexOf('ž'));
-
-            string recenica = "Jedna obična rečenica";
-            string[] rijeci = recenica.Split(' ');
-
-            string red = "1234;Pero;Perić;ulica;14"; // CSV
-
-            Console.WriteLine(red.Replace("Pero", "Marko"));
-
-            var polja = red.Split(';');
-            Console.WriteLine(red.Split(';').Last());
-
-            var x = Int32.Parse(red.Split(';').First()).ToString().Split().Length;
-
-            string[] tekst = recenica.Split(' ');
-
-            if (tekst.Length > 0)
-            {
-                Console.WriteLine(tekst[1]);
-                tekst[0] = "To";
-                Console.WriteLine(tekst.ToString());
-            }
-
-            // string[] ljubimci;
-            // string[] ljubimci = new string[2];
-            // string[] ljubimci = new string[] { "pas", "mačka", "ribica" };
-            string[] ljubimci = { "pas", "mačka", "ribica" };
-
-            ljubimci[2] = "hrčak";
-
-            short[] ocjene = { 1, -2, 2, -3, 3, -4, 4, -5, 5 };
-
-            // dvodimenzionalni niz 
-
-            int[,] matrica = new int[10, 10];
-            matrica[1, 4] = 10;
-
-            // ArrayList Collection
-
-            ArrayList kolekcija = new ArrayList();
-            kolekcija.Add(1);
-
-            Console.WriteLine(kolekcija[0]);
-
-            // Samo int-ovi
-            List<int> brojevi = new List<int>();
-
-            // Dodavanje namirnica u popis (* Foreach *) <------------
-            string[] namirnice = new string[] { "Med", "Kruh", "Jaja", "Salata", "Kulen" };
-            var popis = string.Empty;
-            foreach (string n in namirnice)
-            {
-                popis += ", " + n;
-            }
-            Console.WriteLine(popis);
-
-            // Ispiši sve neparne brojeve od 0 do 10 
-
-            int petlja = 0;
-            while (petlja < 10)
-            {
-                Console.WriteLine(petlja);
-                // petlja++;
-
-                if (petlja % 2 == 0)
-                    petlja++;
-                else if (petlja % 2 == 1)
-                    petlja += 2;
-            }
-
-            Console.ReadKey();
         }
+
+        static void IspisiTablu(int x, int y, int[,] poljeGeek)
+        {
+            for (int ix = 0; ix < x; ix++)
+            {
+                Console.WriteLine(" ");
+                for (int iy = 0; iy < y; iy++)
+                {
+                    Console.Write("[{0}]", poljeGeek[ix, iy]);
+                }
+            }
+        }
+
+        static void GoreLijevo(int x, int y, int[,] poljeGeek, int counter, int ix, int iy)
+        {
+            x--;
+            y--;
+            int listic = 0;
+            while (counter <= ((x + 1) * (y + 1)))
+            {
+                //STEP 1 - Piši desno
+                for (; iy < (y - listic); iy++)
+                {
+                    counter++;
+                    if (counter > ((x + 1) * (y + 1)))
+                    {
+                        break;
+                    }
+                    poljeGeek[ix, iy] = counter;
+                }
+
+                //STEP 2 - Piši dolje
+                for (; ix < (x - listic); ix++)
+                {
+                    counter++;
+                    if (counter > ((x + 1) * (y + 1)))
+                    {
+                        break;
+                    }
+                    poljeGeek[ix, iy] = counter;
+                }
+
+
+                //STEP 3 - Piši lijevo
+                for (; iy >= listic; iy--)
+                {
+                    counter++;
+                    if (counter > ((x + 1) * (y + 1)))
+                    {
+                        break;
+                    }
+                    poljeGeek[ix, iy] = counter;
+                }
+                iy++;
+                ix--;
+                listic++;
+
+                //STEP 4 - Piši gore
+                for (; ix >= listic; ix--)
+                {
+                    counter++;
+                    if (counter > ((x + 1) * (y + 1)))
+                    {
+                        break;
+                    }
+                    poljeGeek[ix, iy] = counter;
+
+
+                }
+                ix++;
+                iy++;
+
+
+            }
+
+
+        }
+
+        /*static void Pisidolje(int x, int y, int[,] poljeGeek, int counter, int ix = 0, int iy = 0)
+        {
+            for (; ix < x; ix++)
+            {
+                counter++;
+                poljeGeek[ix, iy] = counter;
+            }
+            x++;
+        }
+        */
+
     }
 }
