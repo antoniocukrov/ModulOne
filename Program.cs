@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Linq;
+using System.Net;
+using Newtonsoft.Json;
 
 namespace ModulOne
 {
@@ -7,8 +9,8 @@ namespace ModulOne
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Molimo upišite Vaše dragocijeno ime i prezime.");
-            Console.WriteLine("Ova aplikacije nije u vlasništvu Spycorpa, i uopće \nne prikupljamo Vaše privatne podatke.!\n");
+            Console.WriteLine("Molimo upišite Vaše dragocjeno ime i prezime.");
+            Console.WriteLine("Ova aplikacija nije u vlasništvu Spycorpa, i uopće \nne prikupljamo Vaše privatne podatke.!\n");
             Console.Write("Ime:");
             string ime = Console.ReadLine();
             Console.Write("Prezime:");
@@ -50,7 +52,7 @@ namespace ModulOne
                     Console.WriteLine(DatVri());
                     break;
                 case 7:
-                    Console.WriteLine("Hello");
+                    Console.WriteLine(Nevrijeme(ime));
                     break;
                 default:
                     Console.WriteLine("Izbor nije valjan, molim ponoviti unos.");
@@ -72,6 +74,32 @@ namespace ModulOne
             string mjesec = DateTime.Now.ToUniversalTime().Month.ToString();
             string poruka = $"Danas je {dan}.{mjesec}. i trenutno je {sat}:{minuta}.";
             return poruka;
+        }
+
+        static string Nevrijeme(string i)
+        {
+            string apiKey = "98fe87d04e7578102a70f40b46b958fd";
+            string city = "Zagreb";
+            string url = $"http://api.openweathermap.org/data/2.5/weather?q={city},hr&appid={apiKey}&units=metric";
+            using (WebClient webClient = new WebClient())
+            {
+                try
+                {
+                    string json = webClient.DownloadString(url);
+                    WeatherData weatherData = JsonConvert.DeserializeObject<WeatherData>(json);
+
+                    Console.WriteLine($"Vrijeme u gradu {city}!");
+                    Console.WriteLine($"Opis: {weatherData.weather[0].description}");
+                    Console.WriteLine($"Temperatura je: {weatherData.main.temp}°C");
+                    Console.WriteLine($"Vlažnost zraka je: {weatherData.main.humidity}%");
+                    Console.WriteLine($"Tlak zraka je: {weatherData.main.pressure} hPa");
+                }
+                catch (WebException)
+                {
+                    Console.WriteLine("Nešto spriječava dohvaćanje podataka, valjda je internet u banani, pokušaj ponovno malo kasnije ili eventualno puno kasnije");
+                }
+            }
+                return null;
         }
 
         static string VelikoSlovo(string i, string j)
@@ -137,5 +165,22 @@ namespace ModulOne
             return hackerFullname;
         }
         
+    }
+    class WeatherData
+    {
+        public Weather[] weather { get; set; }
+        public MainData main { get; set; }
+    }
+
+    class Weather
+    {
+        public string description { get; set; }
+    }
+
+    class MainData
+    {
+        public float temp { get; set; }
+        public int humidity { get; set; }
+        public int pressure { get; set; }
     }
 }
