@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 
 namespace ModulOne
 {
@@ -37,7 +38,7 @@ namespace ModulOne
                     Console.WriteLine("U tvome imenu i prezimenu ima {0} slova.", BrojMiSlova(ime,prezime));
                     break;
                 case 3:
-                    Console.WriteLine("Hello");
+                    Console.WriteLine(ObrnutoIme(ime,prezime));
                     break;
                 case 4:
                     Console.WriteLine("Hello");
@@ -67,6 +68,25 @@ namespace ModulOne
         static int BrojMiSlova(string i, string j)
         {
             return i.Length + j.Length;
+        }
+
+        static string ObrnutoIme(string i, string j)
+        {
+            char[] ime = i.ToLower().ToCharArray();
+            char[] prezime = j.ToLower().ToCharArray();
+            Array.Reverse(ime);
+            Array.Reverse(prezime);
+            string emi = new string(ime);
+
+            string emizerp = new string(prezime);
+            return (emi.First().ToString().ToUpper() + emi.Substring(1) + " " + emizerp.First().ToString().ToUpper() + emizerp.Substring(1));
+           
+        }
+
+        static string Hacker(string i, string j)
+        {
+
+            return null;
         }
         
     }
