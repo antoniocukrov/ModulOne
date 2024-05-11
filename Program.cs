@@ -41,7 +41,7 @@ namespace ModulOne
                     Console.WriteLine(ObrnutoIme(ime,prezime));
                     break;
                 case 4:
-                    Console.WriteLine("Hello");
+                    Console.WriteLine(Hacker(ime, prezime));
                     break;
                 case 5:
                     Console.WriteLine("Hello");
@@ -85,8 +85,42 @@ namespace ModulOne
 
         static string Hacker(string i, string j)
         {
+            string punoIme = i.ToUpper() + " " + j.ToUpper();
+            char[] hackerIme = punoIme.ToUpper().ToCharArray();
 
-            return null;
+            for(int b = 0; b < hackerIme.Length;b++)
+            {
+                switch (hackerIme[b])
+                {
+                    case 'A':
+                        hackerIme[b] = '4';
+                        break;
+                    case 'E':
+                        hackerIme[b] = '3';
+                        break;
+                    case 'I':
+                        hackerIme[b] = '1';
+                        break;
+                    case 'O':
+                        hackerIme[b] = '0';
+                        break;
+                    case 'S':
+                        hackerIme[b] = '5';
+                        break;
+                    case 'T':
+                        hackerIme[b] = '7';
+                        break;
+                    case 'Z':
+                        hackerIme[b] = '2';
+                        break;
+                    case 'G':
+                        hackerIme[b] = '6';
+                        break;
+                    default: break;
+                }
+            }
+            string hackerFullname = new string(hackerIme);
+            return hackerFullname;
         }
         
     }
