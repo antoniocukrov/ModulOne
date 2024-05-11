@@ -78,8 +78,28 @@ namespace ModulOne
 
         static string Nevrijeme(string i)
         {
+            Console.WriteLine("Koji grad Vas zanima?\n(1) Zagreb\n(2) Zadar\n(3) Osijek\n(4) Rijeka\n(5) Dubrovnik\n");
+            Console.Write("Unesite broj:");
+            int izborGrada = Int32.Parse(Console.ReadLine());
             string apiKey = "98fe87d04e7578102a70f40b46b958fd";
-            string city = "Zagreb";
+            string city = " ";
+            switch (izborGrada)
+            {
+                case 1: city = "Zagreb";
+                    break;
+                case 2:
+                    city = "Zadar";
+                    break;
+                case 3:
+                    city = "Osijek";
+                    break;
+                case 4:
+                    city = "Rijeka";
+                    break;
+                case 5:
+                    city = "Dubrovnik";
+                    break;
+            }
             string url = $"http://api.openweathermap.org/data/2.5/weather?q={city},hr&appid={apiKey}&units=metric";
             using (WebClient webClient = new WebClient())
             {
