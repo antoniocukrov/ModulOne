@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using Newtonsoft.Json;
@@ -37,10 +38,10 @@ namespace ModulOne
                     Console.WriteLine(VelikoSlovo(ime, prezime));
                     break;
                 case 2:
-                    Console.WriteLine("U tvome imenu i prezimenu ima {0} slova.", BrojMiSlova(ime,prezime));
+                    Console.WriteLine("U tvome imenu i prezimenu ima {0} slova.", BrojMiSlova(ime, prezime));
                     break;
                 case 3:
-                    Console.WriteLine(ObrnutoIme(ime,prezime));
+                    Console.WriteLine(ObrnutoIme(ime, prezime));
                     break;
                 case 4:
                     Console.WriteLine(Hacker(ime, prezime));
@@ -78,14 +79,15 @@ namespace ModulOne
 
         static string Nevrijeme(string i)
         {
-            Console.WriteLine("Koji grad Vas zanima?\n(1) Zagreb\n(2) Zadar\n(3) Osijek\n(4) Rijeka\n(5) Dubrovnik\n");
+            Console.WriteLine($"{i},koji grad Vas zanima?\n(1) Zagreb\n(2) Zadar\n(3) Osijek\n(4) Rijeka\n(5) Dubrovnik\n");
             Console.Write("Unesite broj:");
             int izborGrada = Int32.Parse(Console.ReadLine());
             string apiKey = "98fe87d04e7578102a70f40b46b958fd";
             string city = " ";
             switch (izborGrada)
             {
-                case 1: city = "Zagreb";
+                case 1:
+                    city = "Zagreb";
                     break;
                 case 2:
                     city = "Zadar";
@@ -109,7 +111,7 @@ namespace ModulOne
                     WeatherData weatherData = JsonConvert.DeserializeObject<WeatherData>(json);
 
                     Console.WriteLine($"Vrijeme u gradu {city}!");
-                    Console.WriteLine($"Opis: {weatherData.weather[0].description}");
+                    Console.WriteLine($"Opis: {PrevediOpisVremena(weatherData.weather[0].description)}");
                     Console.WriteLine($"Temperatura je: {weatherData.main.temp}°C");
                     Console.WriteLine($"Vlažnost zraka je: {weatherData.main.humidity}%");
                     Console.WriteLine($"Tlak zraka je: {weatherData.main.pressure} hPa");
@@ -119,7 +121,7 @@ namespace ModulOne
                     Console.WriteLine("Nešto spriječava dohvaćanje podataka, valjda je internet u banani, pokušaj ponovno malo kasnije ili eventualno puno kasnije");
                 }
             }
-                return null;
+            return null;
         }
 
         static string VelikoSlovo(string i, string j)
@@ -142,7 +144,7 @@ namespace ModulOne
 
             string emizerp = new string(prezime);
             return (emi.First().ToString().ToUpper() + emi.Substring(1) + " " + emizerp.First().ToString().ToUpper() + emizerp.Substring(1));
-           
+
         }
 
         static string Hacker(string i, string j)
@@ -150,7 +152,7 @@ namespace ModulOne
             string punoIme = i.ToUpper() + " " + j.ToUpper();
             char[] hackerIme = punoIme.ToUpper().ToCharArray();
 
-            for(int b = 0; b < hackerIme.Length;b++)
+            for (int b = 0; b < hackerIme.Length; b++)
             {
                 switch (hackerIme[b])
                 {
@@ -184,9 +186,36 @@ namespace ModulOne
             string hackerFullname = new string(hackerIme);
             return hackerFullname;
         }
-        
+
+
+
+        private static string PrevediOpisVremena(string opis)
+        {
+            Dictionary<string, string> rjecnikOpisa = new Dictionary<string, string>
+        {
+            { "clear sky", "Vedro nebo" },
+            { "few clouds", "Sa malo oblaka" },
+            { "scattered clouds", "Razmjerno oblačno" },
+            { "broken clouds", "Djelomično oblačno" },
+            { "overcast clouds", "Pretežno oblačno" },
+            { "shower rain", "Pljusak" },
+            { "rain", "Kišovito" },
+            { "thunderstorm", "Grmljavinska oluja" },
+            { "snow", "Pada snijeg" },
+            { "mist", "Maglovito" }
+        };
+
+            if (rjecnikOpisa.ContainsKey(opis))
+            {
+                return rjecnikOpisa[opis];
+            }
+            else
+            {
+                return opis;
+            }
+        }
     }
-    class WeatherData
+class WeatherData
     {
         public Weather[] weather { get; set; }
         public MainData main { get; set; }
