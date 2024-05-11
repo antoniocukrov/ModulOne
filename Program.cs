@@ -44,10 +44,10 @@ namespace ModulOne
                     Console.WriteLine(Hacker(ime, prezime));
                     break;
                 case 5:
-                    Console.WriteLine("Hello");
+                    Console.WriteLine(Inicijali(ime, prezime));
                     break;
                 case 6:
-                    Console.WriteLine("Hello");
+                    Console.WriteLine(DatVri());
                     break;
                 case 7:
                     Console.WriteLine("Hello");
@@ -58,6 +58,20 @@ namespace ModulOne
             }
 
             Console.ReadKey();
+        }
+
+        private static string Inicijali(string ime, string prezime)
+        {
+            return ime.First().ToString() + prezime.First().ToString();
+        }
+        private static string DatVri()
+        {
+            string dan = DateTime.Now.ToUniversalTime().Day.ToString();
+            string minuta = DateTime.Now.ToUniversalTime().Minute.ToString();
+            string sat = DateTime.Now.ToUniversalTime().Hour.ToString();
+            string mjesec = DateTime.Now.ToUniversalTime().Month.ToString();
+            string poruka = $"Danas je {dan}.{mjesec}. i trenutno je {sat}:{minuta}.";
+            return poruka;
         }
 
         static string VelikoSlovo(string i, string j)
